@@ -1,0 +1,1093 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f1f3d;--navy2:#1a2f52;--gold:#c9a84c;--gold2:#e8c76a;
+  --bg:#fafaf8;--bg2:#f3f2ee;--bg3:#eceae3;
+  --text:#1a1a1a;--text2:#4a4a4a;--text3:#888;
+  --border:#ddd9d0;--white:#fff;
+  --teal:#0d6e6e;--teal2:#e1f5f0;
+  --green:#2d6a4f;--green2:#e8f5ee;
+  --amber:#b5460f;--amber2:#fef3e2;
+  --blue:#1a4e8a;--blue2:#e8f0fb;
+  --radius:10px;--radius2:16px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh}
+.serif{font-family:'DM Serif Display',serif}
+
+/* NAV */
+nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.nav-logo{color:var(--gold);font-family:'DM Serif Display',serif;font-size:18px;letter-spacing:0.5px;cursor:pointer}
+.nav-logo span{color:#fff;font-size:12px;font-family:'DM Sans',sans-serif;font-weight:300;margin-left:8px;opacity:0.7}
+.nav-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-btn{background:none;border:none;color:rgba(255,255,255,0.65);font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 10px;cursor:pointer;border-radius:6px;transition:all 0.2s;white-space:nowrap}
+.nav-btn:hover,.nav-btn.active{color:#fff;background:rgba(255,255,255,0.12)}
+
+/* PAGES */
+.page{display:none;animation:fadeIn 0.3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{background:var(--navy);color:#fff;padding:3.5rem 2rem 3rem;position:relative;overflow:hidden}
+.hero::before{content:'BEC';position:absolute;right:-20px;top:-20px;font-family:'DM Serif Display',serif;font-size:180px;color:rgba(255,255,255,0.03);pointer-events:none;line-height:1}
+.hero-tag{background:var(--gold);color:var(--navy);font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:16px;letter-spacing:0.5px}
+.hero h1{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1.25;margin-bottom:12px}
+.hero p{color:rgba(255,255,255,0.7);font-size:14px;max-width:480px;margin-bottom:24px}
+.hero-stats{display:flex;gap:2rem;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--gold2);line-height:1}
+.stat-label{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
+
+/* SECTION HEADERS */
+.section{padding:2rem 1.5rem}
+.section-header{display:flex;align-items:baseline;gap:12px;margin-bottom:1.5rem}
+.section-title{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--navy)}
+.section-sub{font-size:12px;color:var(--text3)}
+.divider{width:32px;height:2px;background:var(--gold);border-radius:2px;margin:8px 0 16px}
+
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius2);padding:1.25rem;transition:box-shadow 0.2s}
+.card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.card-title{font-weight:500;font-size:14px;color:var(--navy);margin-bottom:4px}
+.card-desc{font-size:12px;color:var(--text3);line-height:1.5}
+.card-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;margin-top:8px;font-weight:500}
+
+/* MODULE CARDS - clickable */
+.module-card{cursor:pointer;border-left:3px solid var(--gold)}
+.module-card:hover{background:var(--bg2)}
+
+/* PHASE TIMELINE */
+.phases{display:flex;flex-direction:column;gap:1px;border-radius:var(--radius2);overflow:hidden;border:1px solid var(--border)}
+.phase{padding:1.25rem 1.5rem;background:var(--white);position:relative}
+.phase+.phase{border-top:1px solid var(--border)}
+.phase-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.phase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.phase-name{font-weight:500;font-size:14px}
+.phase-period{font-size:11px;color:var(--text3);margin-left:auto}
+.phase-list{font-size:12px;color:var(--text2);padding-left:16px}
+.phase-list li{margin-bottom:3px}
+
+/* DAILY PLAN */
+.day-grid{display:grid;gap:10px}
+.task-row{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:var(--white);border-radius:var(--radius);border:1px solid var(--border)}
+.task-time{font-size:11px;color:var(--text3);font-weight:500;min-width:44px;margin-top:2px}
+.task-content{flex:1}
+.task-title{font-size:13px;font-weight:500;color:var(--navy)}
+.task-detail{font-size:12px;color:var(--text3);margin-top:2px}
+.task-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+
+/* VOCAB CARDS */
+.vocab-list{display:grid;gap:10px}
+.vocab-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.vocab-en{font-weight:500;font-size:14px;color:var(--navy)}
+.vocab-type{font-size:10px;color:var(--text3);margin-top:2px}
+.vocab-zh{font-size:13px;color:var(--text2);text-align:right}
+.vocab-eg{font-size:11px;color:var(--text3);font-style:italic;margin-top:4px;text-align:right}
+
+/* TEMPLATE BLOCKS */
+.template-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:12px}
+.template-label{font-size:10px;font-weight:500;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px}
+.template-text{font-size:13px;color:var(--text);line-height:1.7}
+.template-zh{font-size:12px;color:var(--text3);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+
+/* PROGRESS BAR */
+.progress-wrap{background:var(--bg3);border-radius:20px;height:6px;overflow:hidden;margin-top:6px}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:20px;transition:width 0.6s ease}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:0}
+.tab{background:none;border:none;border-bottom:2px solid transparent;padding:8px 14px;font-size:13px;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:-1px;transition:all 0.2s}
+.tab.active{color:var(--navy);border-bottom-color:var(--gold);font-weight:500}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* SKILL BADGE */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-gold{background:var(--amber2);color:var(--amber)}
+.badge-green{background:var(--green2);color:var(--green)}
+.badge-blue{background:var(--blue2);color:var(--blue)}
+.badge-teal{background:var(--teal2);color:var(--teal)}
+
+/* SPEAKING Q */
+.speak-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius2);padding:1.25rem;margin-bottom:12px}
+.speak-level{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:8px}
+.speak-q{font-size:14px;font-weight:500;color:var(--navy);margin-bottom:8px}
+.speak-tips{font-size:12px;color:var(--text3);border-left:3px solid var(--gold);padding-left:10px;margin-top:8px}
+.speak-sample{font-size:12px;background:var(--bg2);border-radius:8px;padding:10px 12px;margin-top:10px;line-height:1.7}
+
+/* READING TIPS */
+.tip-block{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.tip-block:last-child{border-bottom:none}
+.tip-num{width:28px;height:28px;background:var(--navy);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:2px}
+.tip-title{font-size:13px;font-weight:500;color:var(--navy);margin-bottom:3px}
+.tip-desc{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* LISTENING */
+.listen-block{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:10px}
+.listen-type{font-size:10px;font-weight:500;background:var(--navy);color:#fff;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:8px}
+
+/* CAREER BOX */
+.career-box{background:var(--navy);color:#fff;border-radius:var(--radius2);padding:1.5rem;margin-bottom:12px}
+.career-box h4{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--gold2);margin-bottom:10px}
+.career-list{list-style:none;font-size:13px;line-height:1.8}
+.career-list li::before{content:'→  ';color:var(--gold)}
+
+/* CHECKLIST */
+.check-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}
+.check-item:last-child{border-bottom:none}
+.check-box{width:18px;height:18px;border:1.5px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all 0.2s}
+.check-box.checked{background:var(--teal);border-color:var(--teal);color:#fff}
+.check-label{font-size:13px;color:var(--text)}
+.check-sub{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* STICKY NOTE */
+.sticky{background:#fffde7;border:1px solid #ffe082;border-radius:var(--radius);padding:12px 14px;font-size:12px;color:#5d4037;margin-bottom:12px}
+.sticky strong{color:#bf360c}
+
+/* FOOTER INFO */
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.info-row:last-child{border-bottom:none}
+.info-key{color:var(--text3)}
+.info-val{font-weight:500;color:var(--navy)}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .hero h1{font-size:1.5rem}
+  .nav-btn{font-size:11px;padding:5px 7px}
+  .section{padding:1.5rem 1rem}
+  .card-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">BEC Vantage <span>中级备考</span></div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="showPage('home')">首页</button>
+    <button class="nav-btn" onclick="showPage('plan')">备考规划</button>
+    <button class="nav-btn" onclick="showPage('daily')">每日学习</button>
+    <button class="nav-btn" onclick="showPage('vocab')">词汇库</button>
+    <button class="nav-btn" onclick="showPage('listen')">听力</button>
+    <button class="nav-btn" onclick="showPage('reading')">阅读</button>
+    <button class="nav-btn" onclick="showPage('writing')">写作</button>
+    <button class="nav-btn" onclick="showPage('speaking')">口语</button>
+    <button class="nav-btn" onclick="showPage('exam')">真题打卡</button>
+    <button class="nav-btn" onclick="showPage('career')">求职加分</button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-tag">BEC Vantage · 中级 · 剑桥商务英语</div>
+    <h1 class="serif">你的专属备考站<br>稳过 BEC Vantage</h1>
+    <p>适合雅思6分基础 · 留学生 / 职场设计师 · 从基础到冲刺，每步都有明确任务</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">学习阶段</div></div>
+      <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">考试技能</div></div>
+      <div class="stat-item"><div class="stat-num">90+</div><div class="stat-label">天备考周期</div></div>
+      <div class="stat-item"><div class="stat-num">B2</div><div class="stat-label">目标级别</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><div class="section-title serif">考试概览</div></div>
+    <div class="divider"></div>
+    <div style="display:grid;gap:10px">
+      <div class="info-row"><span class="info-key">考试名称</span><span class="info-val">BEC Vantage（商务英语证书中级）</span></div>
+      <div class="info-row"><span class="info-key">发证机构</span><span class="info-val">剑桥大学英语考试院</span></div>
+      <div class="info-row"><span class="info-key">CEFR等级</span><span class="info-val">B2 — 上班族实用商务英语</span></div>
+      <div class="info-row"><span class="info-key">四项考试</span><span class="info-val">阅读 · 写作 · 听力 · 口语</span></div>
+      <div class="info-row"><span class="info-key">通过分数</span><span class="info-val">Pass / Merit / Distinction（建议冲Merit）</span></div>
+      <div class="info-row"><span class="info-key">证书有效期</span><span class="info-val">永久有效，外企公认</span></div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top:0">
+    <div class="section-header"><div class="section-title serif">学习模块</div></div>
+    <div class="divider"></div>
+    <div class="card-grid">
+      <div class="card module-card" onclick="showPage('plan')">
+        <div class="card-icon" style="background:#eef2ff">📋</div>
+        <div class="card-title">备考总规划</div>
+        <div class="card-desc">90天三阶段学习路径，每周目标清晰</div>
+        <div class="card-tag badge-blue">基础→冲刺</div>
+      </div>
+      <div class="card module-card" onclick="showPage('daily')">
+        <div class="card-icon" style="background:var(--teal2)">☀️</div>
+        <div class="card-title">每日学习任务</div>
+        <div class="card-desc">分时段日程，工作日/周末版本</div>
+        <div class="card-tag badge-teal">每天90分钟</div>
+      </div>
+      <div class="card module-card" onclick="showPage('vocab')">
+        <div class="card-icon" style="background:var(--amber2)">📚</div>
+        <div class="card-title">商务词汇库</div>
+        <div class="card-desc">高频BEC词汇，例句+中英对照</div>
+        <div class="card-tag badge-gold">500+核心词</div>
+      </div>
+      <div class="card module-card" onclick="showPage('listen')">
+        <div class="card-icon" style="background:var(--blue2)">🎧</div>
+        <div class="card-title">听力专区</div>
+        <div class="card-desc">三大题型详解，抓题技巧全攻略</div>
+        <div class="card-tag badge-blue">45分钟满分</div>
+      </div>
+      <div class="card module-card" onclick="showPage('reading')">
+        <div class="card-icon" style="background:var(--green2)">📰</div>
+        <div class="card-title">阅读技巧</div>
+        <div class="card-desc">5大题型速解法，商务文体读法</div>
+        <div class="card-tag badge-green">60分钟</div>
+      </div>
+      <div class="card module-card" onclick="showPage('writing')">
+        <div class="card-icon" style="background:#fce4ec">✍️</div>
+        <div class="card-title">写作模板库</div>
+        <div class="card-desc">邮件/报告/提案，直接套用</div>
+        <div class="card-tag" style="background:#fce4ec;color:#ad1457;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500">2篇作文</div>
+      </div>
+      <div class="card module-card" onclick="showPage('speaking')">
+        <div class="card-icon" style="background:#f3e5f5">🎤</div>
+        <div class="card-title">口语题库</div>
+        <div class="card-desc">商务话题，范例答案+评分要点</div>
+        <div class="card-tag" style="background:#f3e5f5;color:#7b1fa2;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500">16分钟</div>
+      </div>
+      <div class="card module-card" onclick="showPage('career')">
+        <div class="card-icon" style="background:var(--amber2)">💼</div>
+        <div class="card-title">外企求职加分</div>
+        <div class="card-desc">简历表达 · 商务实用语 · 职场加分</div>
+        <div class="card-tag badge-gold">外企必备</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top:0">
+    <div class="sticky">
+      <strong>给你的提示：</strong> 雅思6分 = 词汇量够、语法稳，BEC的短板通常在<strong>商务场景词汇</strong>和<strong>正式写作格式</strong>。先把词汇库和写作模板吃透，听力口语同步跟进，通过没问题 ✓
+    </div>
+  </div>
+</div>
+
+<!-- PLAN PAGE -->
+<div id="page-plan" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">90天 · 三阶段学习路径</div>
+    <h1 class="serif" style="font-size:1.6rem">备考总规划</h1>
+    <p style="font-size:13px">Study Roadmap — Foundation → Intensive → Sprint</p>
+  </div>
+  <div class="section">
+    <div class="phases">
+      <div class="phase" style="border-left:4px solid var(--teal)">
+        <div class="phase-head">
+          <div class="phase-num" style="background:var(--teal2);color:var(--teal)">1</div>
+          <div>
+            <div class="phase-name">基础阶段 Foundation Phase</div>
+            <div style="font-size:11px;color:var(--text3)">第1-30天 · Weeks 1–4</div>
+          </div>
+        </div>
+        <ul class="phase-list">
+          <li>建立商务词汇体系：每天20个核心词，覆盖finance / HR / marketing / operations</li>
+          <li>熟悉BEC考试格式：4个科目逐一了解题型和评分标准</li>
+          <li>阅读Part 1–3：练习skimming & scanning商务文章</li>
+          <li>听力Part 1：短对话笔记练习，商务会议场景</li>
+          <li>写作：掌握商务邮件格式（正式/半正式），完成5封练习邮件</li>
+          <li>口语：熟悉Part 1 个人话题，准备self-introduction</li>
+        </ul>
+        <div style="margin-top:12px">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">月底目标完成度</div>
+          <div class="progress-wrap"><div class="progress-bar" style="width:33%"></div></div>
+        </div>
+      </div>
+      <div class="phase" style="border-left:4px solid var(--gold)">
+        <div class="phase-head">
+          <div class="phase-num" style="background:var(--amber2);color:var(--amber)">2</div>
+          <div>
+            <div class="phase-name">强化阶段 Intensive Phase</div>
+            <div style="font-size:11px;color:var(--text3)">第31-65天 · Weeks 5–9</div>
+          </div>
+        </div>
+        <ul class="phase-list">
+          <li>词汇强化：主题分类记忆（董事会、供应链、市场营销等），累计400词</li>
+          <li>阅读计时练习：在60分钟内完成整套阅读，错题分析</li>
+          <li>听力Part 2–3：长段落信息捕捉，注意signpost words</li>
+          <li>写作：商务报告结构训练（Introduction / Findings / Recommendations），每周1篇</li>
+          <li>口语Part 2：Mini-presentation练习，学会结构化表达</li>
+          <li>首次完整模拟：按考试时间完成一套真题，复盘错误</li>
+        </ul>
+        <div style="margin-top:12px">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">阶段目标完成度</div>
+          <div class="progress-wrap"><div class="progress-bar" style="width:66%"></div></div>
+        </div>
+      </div>
+      <div class="phase" style="border-left:4px solid #c0392b">
+        <div class="phase-head">
+          <div class="phase-num" style="background:#fdecea;color:#c0392b">3</div>
+          <div>
+            <div class="phase-name">冲刺阶段 Sprint Phase</div>
+            <div style="font-size:11px;color:var(--text3)">第66-90天 · Weeks 10–13</div>
+          </div>
+        </div>
+        <ul class="phase-list">
+          <li>每周2套完整真题模拟，严格计时，分析薄弱项</li>
+          <li>错题本高频复盘：每3天回顾一次高频错误类型</li>
+          <li>写作冲刺：提高语言精准度，使用高分词汇和连接词</li>
+          <li>口语Part 3：双人讨论话题训练，学会有礼貌地agree/disagree</li>
+          <li>听力精听：每段音频最少听3遍（泛听→精听→跟读）</li>
+          <li>考前1周：保持状态，复习写作模板，不要刷新题型</li>
+        </ul>
+        <div style="margin-top:12px">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">目标完成度</div>
+          <div class="progress-wrap"><div class="progress-bar" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top:0">
+    <div class="section-title serif" style="margin-bottom:12px">每周节奏 Weekly Rhythm</div>
+    <div class="divider"></div>
+    <div style="display:grid;gap:8px">
+      <div class="task-row">
+        <div class="task-time">周一三五</div>
+        <div class="task-content">
+          <div class="task-title">词汇 + 听力（Vocabulary & Listening）</div>
+          <div class="task-detail">背20个商务词汇 + 完成1组听力题，约60分钟</div>
+        </div>
+        <div class="task-dot" style="background:var(--teal)"></div>
+      </div>
+      <div class="task-row">
+        <div class="task-time">周二四</div>
+        <div class="task-content">
+          <div class="task-title">阅读 + 写作（Reading & Writing）</div>
+          <div class="task-detail">完成1篇阅读训练 + 写作草稿或模板练习，约75分钟</div>
+        </div>
+        <div class="task-dot" style="background:var(--gold)"></div>
+      </div>
+      <div class="task-row">
+        <div class="task-time">周六</div>
+        <div class="task-content">
+          <div class="task-title">口语专项（Speaking Practice）</div>
+          <div class="task-detail">录音练习Part 2 Presentation，回听自评，约45分钟</div>
+        </div>
+        <div class="task-dot" style="background:#9b59b6"></div>
+      </div>
+      <div class="task-row">
+        <div class="task-time">周日</div>
+        <div class="task-content">
+          <div class="task-title">复盘 + 错题（Review & Error Log）</div>
+          <div class="task-detail">整理本周错题，更新错题本，规划下周任务，约30分钟</div>
+        </div>
+        <div class="task-dot" style="background:#e74c3c"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY PAGE -->
+<div id="page-daily" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">每日任务 · Daily Study Plan</div>
+    <h1 class="serif" style="font-size:1.6rem">每日学习安排</h1>
+    <p style="font-size:13px">每天只需90分钟，坚持3个月稳过</p>
+  </div>
+  <div class="section">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('weekday','daily')">工作日 Weekday</button>
+      <button class="tab" onclick="switchTab('weekend','daily')">周末 Weekend</button>
+      <button class="tab" onclick="switchTab('preexam','daily')">考前一周 Pre-exam</button>
+    </div>
+    <div id="tab-weekday" class="tab-content active">
+      <div class="day-grid">
+        <div class="task-row">
+          <div class="task-time">早 7:00</div>
+          <div class="task-content">
+            <div class="task-title">商务词汇 — 每日20词</div>
+            <div class="task-detail">利用通勤/早餐时间，Anki复习昨日词 + 新增20词，重点记用法不只记意思</div>
+          </div>
+          <div class="task-dot" style="background:var(--gold)"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">午 12:30</div>
+          <div class="task-content">
+            <div class="task-title">听力精练 — 1组题（25分钟）</div>
+            <div class="task-detail">选Part 1或Part 2一组，做完后逐句对答案，不懂的单词立即记入词汇本</div>
+          </div>
+          <div class="task-dot" style="background:var(--teal)"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">晚 20:00</div>
+          <div class="task-content">
+            <div class="task-title">主攻专项（45分钟）轮流安排：</div>
+            <div class="task-detail">
+              ① 周一/四：完成1篇阅读Part 4（填词题），精读不认识的句型<br>
+              ② 周二/五：写作练习，邮件或报告各一段，注意格式分<br>
+              ③ 周三：口语录音，1道Part 2 Presentation，用手机录下来回听
+            </div>
+          </div>
+          <div class="task-dot" style="background:#9b59b6"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">晚 21:00</div>
+          <div class="task-content">
+            <div class="task-title">错题复盘（15分钟）</div>
+            <div class="task-detail">把今天的错题写进错题本，分析原因：词汇不认识 / 语法误判 / 没听清</div>
+          </div>
+          <div class="task-dot" style="background:#e74c3c"></div>
+        </div>
+      </div>
+      <div class="sticky" style="margin-top:16px">
+        <strong>设计师专属建议：</strong>你已经习惯视觉化思维，建议用思维导图整理写作结构，口语练习时可以把商务场景可视化为设计汇报场景，表达更自然。
+      </div>
+    </div>
+    <div id="tab-weekend" class="tab-content">
+      <div class="day-grid">
+        <div class="task-row">
+          <div class="task-time">上午</div>
+          <div class="task-content">
+            <div class="task-title">完整阅读套题（60分钟）</div>
+            <div class="task-detail">严格计时，模拟考试状态，5个Part全做完，然后对答案分析错误</div>
+          </div>
+          <div class="task-dot" style="background:var(--teal)"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">下午</div>
+          <div class="task-content">
+            <div class="task-title">写作训练（75分钟）</div>
+            <div class="task-detail">Part 1邮件（45分钟）+ Part 2报告/提案（60分钟），写完对照模板修改</div>
+          </div>
+          <div class="task-dot" style="background:var(--gold)"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">傍晚</div>
+          <div class="task-content">
+            <div class="task-title">口语双人练习（30分钟）</div>
+            <div class="task-detail">找搭档练Part 3 Discussion，或用AI对话练习商务话题，记录新表达</div>
+          </div>
+          <div class="task-dot" style="background:#9b59b6"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">晚间</div>
+          <div class="task-content">
+            <div class="task-title">周复盘 + 下周规划（20分钟）</div>
+            <div class="task-detail">统计本周完成率，找出最弱的一个技能，下周重点补强</div>
+          </div>
+          <div class="task-dot" style="background:#e74c3c"></div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-preexam" class="tab-content">
+      <div class="day-grid">
+        <div class="task-row">
+          <div class="task-time">D-7</div>
+          <div class="task-content">
+            <div class="task-title">完整模拟考 + 重点复盘</div>
+            <div class="task-detail">最后一次全真模拟，标记所有错误，重点是心理建设</div>
+          </div>
+          <div class="task-dot" style="background:#e74c3c)"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">D-5</div>
+          <div class="task-content">
+            <div class="task-title">写作模板过一遍</div>
+            <div class="task-detail">邮件、报告、提案的开头结尾公式全部默写一遍，确认记住</div>
+          </div>
+          <div class="task-dot" style="background:var(--gold)"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">D-3</div>
+          <div class="task-content">
+            <div class="task-title">高频词汇快速过</div>
+            <div class="task-detail">只看标记过的不熟悉词汇，不要背新词，巩固已学内容</div>
+          </div>
+          <div class="task-dot" style="background:var(--teal)"></div>
+        </div>
+        <div class="task-row">
+          <div class="task-time">D-1</div>
+          <div class="task-content">
+            <div class="task-title">放松 + 准备考试物品</div>
+            <div class="task-detail">不做大量练习，轻听一段英文播客，早睡，准备证件和文具</div>
+          </div>
+          <div class="task-dot" style="background:var(--green)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VOCAB PAGE -->
+<div id="page-vocab" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">商务词汇库 · Business Vocabulary</div>
+    <h1 class="serif" style="font-size:1.6rem">BEC高频词汇</h1>
+    <p style="font-size:13px">按主题分类，例句均为BEC真实考试场景</p>
+  </div>
+  <div class="section">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('finance','vocab')">财务 Finance</button>
+      <button class="tab" onclick="switchTab('hr','vocab')">人力 HR</button>
+      <button class="tab" onclick="switchTab('market','vocab')">营销 Marketing</button>
+      <button class="tab" onclick="switchTab('ops','vocab')">运营 Operations</button>
+    </div>
+    <div id="tab-finance" class="tab-content active">
+      <div class="vocab-list">
+        <div class="vocab-item">
+          <div><div class="vocab-en">revenue</div><div class="vocab-type">n. 名词</div></div>
+          <div><div class="vocab-zh">营业收入 / 收益</div><div class="vocab-eg">Total revenue increased by 12% in Q3.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">profit margin</div><div class="vocab-type">n. 名词短语</div></div>
+          <div><div class="vocab-zh">利润率</div><div class="vocab-eg">The company's profit margin fell due to rising costs.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">forecast</div><div class="vocab-type">n/v. 名词/动词</div></div>
+          <div><div class="vocab-zh">预测 / 预报</div><div class="vocab-eg">Sales forecasts suggest a strong Q4 performance.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">allocate</div><div class="vocab-type">v. 动词</div></div>
+          <div><div class="vocab-zh">分配（资源/预算）</div><div class="vocab-eg">The board voted to allocate more funds to R&amp;D.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">overhead costs</div><div class="vocab-type">n. 名词短语</div></div>
+          <div><div class="vocab-zh">间接费用 / 经常性开支</div><div class="vocab-eg">Reducing overhead costs is a key priority this year.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">cash flow</div><div class="vocab-type">n. 名词</div></div>
+          <div><div class="vocab-zh">现金流</div><div class="vocab-eg">Positive cash flow is essential for business stability.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">write off</div><div class="vocab-type">phrasal v. 短语动词</div></div>
+          <div><div class="vocab-zh">核销 / 注销（坏账）</div><div class="vocab-eg">The company had to write off several bad debts.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">break even</div><div class="vocab-type">phrasal v. 短语动词</div></div>
+          <div><div class="vocab-zh">收支平衡</div><div class="vocab-eg">We expect to break even by the end of next quarter.</div></div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-hr" class="tab-content">
+      <div class="vocab-list">
+        <div class="vocab-item">
+          <div><div class="vocab-en">appraisal</div><div class="vocab-type">n. 名词</div></div>
+          <div><div class="vocab-zh">绩效评估</div><div class="vocab-eg">Annual appraisals help identify training needs.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">redundancy</div><div class="vocab-type">n. 名词</div></div>
+          <div><div class="vocab-zh">裁员 / 冗余（英式）</div><div class="vocab-eg">The restructuring led to 200 redundancies.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">retention rate</div><div class="vocab-type">n. 名词短语</div></div>
+          <div><div class="vocab-zh">员工留存率</div><div class="vocab-eg">High retention rates indicate good staff morale.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">incentive</div><div class="vocab-type">n. 名词</div></div>
+          <div><div class="vocab-zh">激励（奖金/福利）</div><div class="vocab-eg">Performance incentives can boost productivity.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">probationary period</div><div class="vocab-type">n. 名词短语</div></div>
+          <div><div class="vocab-zh">试用期</div><div class="vocab-eg">New employees undergo a three-month probationary period.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">shortlist</div><div class="vocab-type">v/n. 动词/名词</div></div>
+          <div><div class="vocab-zh">入围名单 / 列入候选</div><div class="vocab-eg">Five candidates were shortlisted for the position.</div></div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-market" class="tab-content">
+      <div class="vocab-list">
+        <div class="vocab-item">
+          <div><div class="vocab-en">target audience</div><div class="vocab-type">n. 名词短语</div></div>
+          <div><div class="vocab-zh">目标受众</div><div class="vocab-eg">The campaign was designed to appeal to a younger target audience.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">brand awareness</div><div class="vocab-type">n. 名词短语</div></div>
+          <div><div class="vocab-zh">品牌知名度</div><div class="vocab-eg">The new ad increased brand awareness significantly.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">market share</div><div class="vocab-type">n. 名词短语</div></div>
+          <div><div class="vocab-zh">市场份额</div><div class="vocab-eg">Our market share grew from 15% to 22% last year.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">USP (Unique Selling Point)</div><div class="vocab-type">n. 缩写</div></div>
+          <div><div class="vocab-zh">独特卖点</div><div class="vocab-eg">The USP of this product is its eco-friendly design.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">endorse</div><div class="vocab-type">v. 动词</div></div>
+          <div><div class="vocab-zh">背书 / 代言</div><div class="vocab-eg">Several celebrities endorsed the product launch.</div></div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-ops" class="tab-content">
+      <div class="vocab-list">
+        <div class="vocab-item">
+          <div><div class="vocab-en">supply chain</div><div class="vocab-type">n. 名词短语</div></div>
+          <div><div class="vocab-zh">供应链</div><div class="vocab-eg">Disruptions to the supply chain affected production.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">logistics</div><div class="vocab-type">n. 名词</div></div>
+          <div><div class="vocab-zh">物流 / 后勤管理</div><div class="vocab-eg">We outsourced our logistics to reduce costs.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">streamline</div><div class="vocab-type">v. 动词</div></div>
+          <div><div class="vocab-zh">精简（流程）</div><div class="vocab-eg">We need to streamline our order-processing system.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">benchmark</div><div class="vocab-type">n/v. 名词/动词</div></div>
+          <div><div class="vocab-zh">基准 / 对标</div><div class="vocab-eg">We benchmark our performance against industry leaders.</div></div>
+        </div>
+        <div class="vocab-item">
+          <div><div class="vocab-en">scalable</div><div class="vocab-type">adj. 形容词</div></div>
+          <div><div class="vocab-zh">可扩展的</div><div class="vocab-eg">We need a scalable solution that grows with the company.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTENING PAGE -->
+<div id="page-listen" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">听力专区 · Listening</div>
+    <h1 class="serif" style="font-size:1.6rem">听力技巧全攻略</h1>
+    <p style="font-size:13px">40分钟 · 三大题型 · 30题</p>
+  </div>
+  <div class="section">
+    <div class="listen-block">
+      <div class="listen-type">Part 1 — 12题</div>
+      <div class="card-title" style="margin-bottom:6px">简短对话 Short Conversations</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">
+        场景：3组商务简短对话，每组4道选择题<br>
+        技巧：<strong>听关键数字、日期和名字</strong>，选项中有数字时特别注意改变，"not A but B"陷阱超常见<br>
+        <span style="color:var(--text3);font-size:12px;display:block;margin-top:6px">Common trap: "Actually, it's not Tuesday — we changed it to Thursday." → 答案是Thursday</span>
+      </div>
+    </div>
+    <div class="listen-block">
+      <div class="listen-type">Part 2 — 12题</div>
+      <div class="card-title" style="margin-bottom:6px">段落笔记 / 填表 Note Completion</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">
+        场景：2段商务独白（电话、报告、会议），每段6空<br>
+        技巧：<strong>提前30秒读题目</strong>，预测词性（名词/数字/地点），听到signpost words如"however / due to / as a result"立刻警觉<br>
+        填词规则：通常填1-3个词，拼写要正确，注意单复数
+      </div>
+    </div>
+    <div class="listen-block">
+      <div class="listen-type">Part 3 — 6题</div>
+      <div class="card-title" style="margin-bottom:6px">长段对话 Extended Discussion</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">
+        场景：1段长对话（约5分钟），通常是两人商务讨论，6道三选一<br>
+        技巧：<strong>听说话人的态度和观点</strong>，不是只听事实，注意"I think / I feel / I doubt"等表达观点的词<br>
+        <span style="color:var(--text3);font-size:12px;display:block;margin-top:6px">高分关键：听"转折"——最后说的意见往往才是答案</span>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <div class="section-title serif" style="margin-bottom:12px">高频听力词汇 Signal Words</div>
+      <div class="divider"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="template-box" style="padding:10px 12px">
+          <div class="template-label">转折 Contrast</div>
+          <div style="font-size:13px;line-height:1.8">however · although · despite · on the other hand · even so · yet</div>
+        </div>
+        <div class="template-box" style="padding:10px 12px">
+          <div class="template-label">原因 Cause</div>
+          <div style="font-size:13px;line-height:1.8">due to · as a result of · owing to · since · because · given that</div>
+        </div>
+        <div class="template-box" style="padding:10px 12px">
+          <div class="template-label">结果 Result</div>
+          <div style="font-size:13px;line-height:1.8">therefore · consequently · as a result · this led to · hence</div>
+        </div>
+        <div class="template-box" style="padding:10px 12px">
+          <div class="template-label">列举 Listing</div>
+          <div style="font-size:13px;line-height:1.8">firstly · in addition · furthermore · finally · also · not only</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- READING PAGE -->
+<div id="page-reading" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">阅读技巧 · Reading</div>
+    <h1 class="serif" style="font-size:1.6rem">阅读5大题型速解</h1>
+    <p style="font-size:13px">60分钟 · 5 Parts · 45题 — 时间管理是关键</p>
+  </div>
+  <div class="section">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius2);padding:1.25rem;margin-bottom:16px">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px;font-weight:500">60分钟时间分配建议 Time Allocation</div>
+      <div style="display:grid;gap:6px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)"><span>Part 1 — 选句填段</span><span style="font-weight:500;color:var(--navy)">12 min</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)"><span>Part 2 — 段落标题匹配</span><span style="font-weight:500;color:var(--navy)">8 min</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)"><span>Part 3 — 长文阅读理解</span><span style="font-weight:500;color:var(--navy)">15 min</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)"><span>Part 4 — 词汇填空（15题）</span><span style="font-weight:500;color:var(--navy)">15 min</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0"><span>Part 5 — 错误改正（12题）</span><span style="font-weight:500;color:var(--navy)">10 min</span></div>
+      </div>
+    </div>
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius2);padding:1.25rem">
+      <div style="font-size:13px;font-weight:500;color:var(--navy);margin-bottom:14px">各题型攻略 Part-by-Part Tips</div>
+      <div class="tip-block">
+        <div class="tip-num">1</div>
+        <div>
+          <div class="tip-title">Part 1 — 选句填段 Sentence Completion</div>
+          <div class="tip-desc">先读原文句子前后的语境，找logic clues（因果/转折/举例），选项中有代词如"this / their"时，看上文名词是否匹配。排除法很好用，先填确定的。</div>
+        </div>
+      </div>
+      <div class="tip-block">
+        <div class="tip-num">2</div>
+        <div>
+          <div class="tip-title">Part 2 — 段落标题匹配 Matching Headings</div>
+          <div class="tip-desc">先读标题选项，找关键词；再快速skimming每段首尾句。注意：正确标题概括整段主旨，不是某个细节。干扰项往往出现在段落里，但不是主题。</div>
+        </div>
+      </div>
+      <div class="tip-block">
+        <div class="tip-num">3</div>
+        <div>
+          <div class="tip-title">Part 3 — 长文选择 Multiple Choice</div>
+          <div class="tip-desc">先读问题，带着问题去定位原文段落。答案区域通常在一两句话内。注意paraphrase（同义改写）——原文说"reduce"，选项可能说"lower/cut"。</div>
+        </div>
+      </div>
+      <div class="tip-block">
+        <div class="tip-num">4</div>
+        <div>
+          <div class="tip-title">Part 4 — 词汇填空 Cloze</div>
+          <div class="tip-desc">四选一，考搭配（collocation）比考意思更多。先看词性，再看上下文固定短语。高频考点：make/do/take的搭配，介词短语，形容词辨析（economic vs economical）。</div>
+        </div>
+      </div>
+      <div class="tip-block">
+        <div class="tip-num">5</div>
+        <div>
+          <div class="tip-title">Part 5 — 错误改正 Error Correction</div>
+          <div class="tip-desc">每行只有0或1个多余词，没有多余词的行写"correct"。常见多余词：冠词（the/a多余）、介词多余、助动词多余。通读全段理解意思再逐行检查，不要孤立看每行。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WRITING PAGE -->
+<div id="page-writing" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">写作模板 · Writing Templates</div>
+    <h1 class="serif" style="font-size:1.6rem">商务写作模板库</div>
+    <p style="font-size:13px">Part 1 邮件（约120词）· Part 2 报告/提案（约200词）</p>
+  </div>
+  <div class="section">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('email','writing')">商务邮件 Email</button>
+      <button class="tab" onclick="switchTab('report','writing')">报告 Report</button>
+      <button class="tab" onclick="switchTab('proposal','writing')">提案 Proposal</button>
+    </div>
+    <div id="tab-email" class="tab-content active">
+      <div class="sticky">邮件满分四要素：格式正确 · 内容完整 · 语气得当 · 词汇地道（避免I think用I would suggest）</div>
+      <div class="template-box">
+        <div class="template-label">开头 Opening</div>
+        <div class="template-text">Dear Mr/Ms [Name], / Dear [Team],<br><br>I am writing to [inform you of / enquire about / follow up on] ___.</div>
+        <div class="template-zh">我写信是为了 [告知您/询问/跟进] ___。</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">提出请求 Making a Request</div>
+        <div class="template-text">I would be grateful if you could ___.<br>Could you please confirm whether ___?<br>I would appreciate it if you were able to ___.</div>
+        <div class="template-zh">如果您能___，我将不胜感激。请您确认是否___？</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">传递信息 Conveying Information</div>
+        <div class="template-text">I am pleased to inform you that ___.<br>Please note that ___.<br>I would like to draw your attention to ___.</div>
+        <div class="template-zh">很高兴通知您___。请注意___。请允许我提醒您___。</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">表达歉意 Apologising</div>
+        <div class="template-text">I apologise for any inconvenience caused.<br>I regret to inform you that ___.<br>Please accept our sincere apologies for ___.</div>
+        <div class="template-zh">为造成的不便深感抱歉。我遗憾地通知您___。</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">结尾 Closing</div>
+        <div class="template-text">Please do not hesitate to contact me if you have any further questions.<br>I look forward to hearing from you.<br>Yours sincerely, / Kind regards, [Name]</div>
+        <div class="template-zh">如有任何疑问，请随时联系我。期待您的回复。</div>
+      </div>
+    </div>
+    <div id="tab-report" class="tab-content">
+      <div class="sticky">报告结构：标题 → 引言 → 调查结果 → 建议 → 结论。每个部分有小标题。正式语气，多用被动语态。</div>
+      <div class="template-box">
+        <div class="template-label">报告标题和引言 Title & Introduction</div>
+        <div class="template-text">REPORT ON: [Topic]<br>Prepared by: [Name] · Date: [Date]<br><br>Introduction<br>The purpose of this report is to [examine / assess / evaluate] ___. The information was gathered from [surveys / interviews / sales data].</div>
+        <div class="template-zh">本报告旨在[考察/评估/分析]___。信息来源为[问卷/访谈/销售数据]。</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">调查结果 Findings</div>
+        <div class="template-text">Findings<br>The research indicates that ___.<br>It was found that ___.<br>A significant number of respondents stated that ___.<br>According to the data, ___.</div>
+        <div class="template-zh">研究表明___。调查发现___。相当多的受访者表示___。</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">建议 Recommendations</div>
+        <div class="template-text">Recommendations<br>It is recommended that the company [consider / introduce / invest in] ___.<br>We strongly suggest that ___.<br>In order to improve ___, it would be advisable to ___.</div>
+        <div class="template-zh">建议公司[考虑/引进/投资]___。为了改善___，建议___。</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">结论 Conclusion</div>
+        <div class="template-text">Conclusion<br>In conclusion, the evidence suggests that ___.<br>Overall, it is clear that ___.<br>If the above recommendations are implemented, ___ should improve significantly.</div>
+        <div class="template-zh">总体而言，很明显___。如实施以上建议，___应会显著改善。</div>
+      </div>
+    </div>
+    <div id="tab-proposal" class="tab-content">
+      <div class="sticky">提案=说服性写作，重点展示：问题是什么 → 你的方案 → 好处 → 行动建议。语气自信而专业。</div>
+      <div class="template-box">
+        <div class="template-label">提案背景 Background</div>
+        <div class="template-text">Proposal for: [Initiative/Project Name]<br><br>Background<br>This proposal outlines a plan to ___.<br>Currently, [problem/situation] is affecting ___.<br>In response to this, we propose to ___.</div>
+        <div class="template-zh">本提案概述了___的方案。目前，[问题/现状]正在影响___。为此，我们建议___。</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">方案细节 Proposed Solution</div>
+        <div class="template-text">Proposed Solution<br>We propose to implement ___ in the following stages:<br>First, ___. Following this, ___. Finally, ___.<br>The estimated cost of this initiative is ___.</div>
+        <div class="template-zh">我们建议分以下阶段实施___。此举的预计成本为___。</div>
+      </div>
+      <div class="template-box">
+        <div class="template-label">预期收益 Benefits</div>
+        <div class="template-text">Benefits<br>This initiative would result in ___.<br>As a consequence, ___ would improve by ___.<br>This is expected to increase customer satisfaction / reduce costs / boost efficiency.</div>
+        <div class="template-zh">此举将会带来___。预计可提升客户满意度/降低成本/提高效率。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPEAKING PAGE -->
+<div id="page-speaking" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">口语题库 · Speaking</div>
+    <h1 class="serif" style="font-size:1.6rem">BEC口语三大Part</h1>
+    <p style="font-size:13px">16分钟 · 2人同时考 · 商务情景讨论</p>
+  </div>
+  <div class="section">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('sp1','speaking')">Part 1 自我介绍</button>
+      <button class="tab" onclick="switchTab('sp2','speaking')">Part 2 演讲</button>
+      <button class="tab" onclick="switchTab('sp3','speaking')">Part 3 讨论</button>
+    </div>
+    <div id="tab-sp1" class="tab-content active">
+      <div class="speak-card">
+        <div class="speak-level" style="background:var(--teal2);color:var(--teal)">约3分钟 · 考官提问</div>
+        <div class="speak-q">Tell me about your current job and main responsibilities.</div>
+        <div class="speak-tips">关键：说清楚 job title / industry / key tasks，用商务词汇。避免说"I do many things"，要具体。</div>
+        <div class="speak-sample">
+          "I'm currently working as a <strong>UI/UX designer</strong> at a design agency in Singapore. My main responsibilities include <strong>leading visual design projects</strong> for our clients, collaborating with product managers, and ensuring brand consistency across platforms. I also <strong>oversee</strong> junior designers from time to time."
+        </div>
+      </div>
+      <div class="speak-card">
+        <div class="speak-level" style="background:var(--teal2);color:var(--teal)">Part 1 常考题</div>
+        <div class="speak-q">What skills do you think are most important for success in business today?</div>
+        <div class="speak-tips">结构：列举2-3点 + 各给一句理由。用"I would argue that / In my view / It's my belief that"引出观点。</div>
+        <div class="speak-sample">
+          "I would argue that <strong>communication skills</strong> are paramount, as the ability to convey ideas clearly can make or break a deal. In addition, <strong>adaptability</strong> has become increasingly important given the rapid changes in technology and market conditions."
+        </div>
+      </div>
+    </div>
+    <div id="tab-sp2" class="tab-content">
+      <div class="sticky"><strong>Mini-Presentation结构（1分钟）：</strong> 引出话题 (10s) → 观点1+理由 (20s) → 观点2+理由 (20s) → 总结 (10s)</div>
+      <div class="speak-card">
+        <div class="speak-level" style="background:var(--amber2);color:var(--amber)">约1分钟 · 提前准备</div>
+        <div class="speak-q">Topic card: "The importance of customer feedback for a business"</div>
+        <div class="speak-tips">卡片会给你一个商务话题，有1分钟准备，然后讲约1分钟，搭档可以提问。</div>
+        <div class="speak-sample">
+          "I'd like to talk about why <strong>customer feedback is vital</strong> for any business. Firstly, feedback helps companies <strong>identify weaknesses</strong> in their products or services before they become serious issues. A company that listens to customers can act proactively rather than reactively. Secondly, responding to feedback builds <strong>customer loyalty</strong> — people feel valued when their opinions are taken on board. In conclusion, feedback is not just useful data; it's a key tool for <strong>continuous improvement</strong>."
+        </div>
+      </div>
+      <div class="speak-card">
+        <div class="speak-level" style="background:var(--amber2);color:var(--amber)">常见话题</div>
+        <div class="speak-q">Other common Part 2 topics 其他常见话题</div>
+        <div style="font-size:13px;color:var(--text2);line-height:2;margin-top:8px">
+          · The benefits of flexible working arrangements 弹性工作制的好处<br>
+          · How to motivate staff effectively 如何有效激励员工<br>
+          · The role of technology in modern marketing 科技在现代营销中的作用<br>
+          · Why companies should invest in staff training 为何企业应投资员工培训<br>
+          · The importance of environmental responsibility for businesses 企业环保责任
+        </div>
+      </div>
+    </div>
+    <div id="tab-sp3" class="tab-content">
+      <div class="sticky"><strong>Part 3 高分秘诀：</strong>主动发言 + 礼貌回应搭档 + 引导讨论到结论。不要只说自己的观点，要互动。</div>
+      <div class="speak-card">
+        <div class="speak-level" style="background:#f3e5f5;color:#7b1fa2">约7分钟 · 双人讨论</div>
+        <div class="speak-q">Task: Your company wants to improve communication between departments. Discuss which methods would be most effective.</div>
+        <div style="margin-top:12px">
+          <div style="font-size:12px;font-weight:500;color:var(--text3);margin-bottom:8px">实用讨论表达 Useful Phrases</div>
+          <div style="display:grid;gap:6px;font-size:12px">
+            <div style="padding:8px 10px;background:var(--bg2);border-radius:8px"><strong>提出观点：</strong> "I think we should consider... / One option worth exploring is..."</div>
+            <div style="padding:8px 10px;background:var(--bg2);border-radius:8px"><strong>礼貌同意：</strong> "That's a valid point. I completely agree that..." / "You're right, and I'd add that..."</div>
+            <div style="padding:8px 10px;background:var(--bg2);border-radius:8px"><strong>礼貌反对：</strong> "I see your point, but I'm not entirely sure... / I take a slightly different view on this."</div>
+            <div style="padding:8px 10px;background:var(--bg2);border-radius:8px"><strong>引导总结：</strong> "Shall we move on to...? / I think we've covered ___, what about...?"</div>
+            <div style="padding:8px 10px;background:var(--bg2);border-radius:8px"><strong>下结论：</strong> "So, to summarise what we've agreed... / Overall, it seems the best approach would be..."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXAM PAGE -->
+<div id="page-exam" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">真题打卡 · Practice Log</div>
+    <h1 class="serif" style="font-size:1.6rem">模拟练习打卡</h1>
+    <p style="font-size:13px">点击勾选完成任务，记录备考进度</p>
+  </div>
+  <div class="section">
+    <div class="section-title serif" style="margin-bottom:12px">本周任务清单 This Week</div>
+    <div class="divider"></div>
+    <div id="checklist">
+      <div class="check-item">
+        <div class="check-box" onclick="toggleCheck(this)"></div>
+        <div><div class="check-label">完成阅读Part 4 —— 词汇填空一套（15题）</div><div class="check-sub">目标：12题以上正确 / Aim: 12+ correct</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggleCheck(this)"></div>
+        <div><div class="check-label">听力Part 2 —— 笔记填空一组（6题）</div><div class="check-sub">对完答案后：把每个空白处抄写一遍</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggleCheck(this)"></div>
+        <div><div class="check-label">写作Part 1 —— 完成一封商务邮件（约120词）</div><div class="check-sub">对照模板检查格式和用词地道性</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggleCheck(this)"></div>
+        <div><div class="check-label">口语Part 2 —— 录音练习一道话题卡</div><div class="check-sub">回听录音，计时是否达到1分钟</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggleCheck(this)"></div>
+        <div><div class="check-label">词汇 —— 本周新词汇100词复习打卡</div><div class="check-sub">Anki闪卡或手写回忆测试</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggleCheck(this)"></div>
+        <div><div class="check-label">阅读Part 5 —— 错误改正练习一篇</div><div class="check-sub">重点：冠词/介词/助动词多余</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggleCheck(this)"></div>
+        <div><div class="check-label">完整模拟套题（只在强化/冲刺阶段）</div><div class="check-sub">4个科目严格计时，记录各项分数</div></div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;padding:1rem;background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border)">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:6px">本周完成进度</div>
+      <div id="progress-display" style="font-size:1.5rem;font-family:'DM Serif Display',serif;color:var(--navy)">0 / 7</div>
+      <div class="progress-wrap" style="margin-top:8px"><div id="week-progress" class="progress-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAREER PAGE -->
+<div id="page-career" class="page">
+  <div class="hero" style="padding:2rem">
+    <div class="hero-tag">外企求职加分 · Career Edge</div>
+    <h1 class="serif" style="font-size:1.6rem">外企求职 · 商务英语加分</h1>
+    <p style="font-size:13px">BEC证书怎么用 · 简历怎么写 · 职场实用表达</p>
+  </div>
+  <div class="section">
+    <div class="career-box">
+      <h4>简历上怎么写 CV / Resume Wording</h4>
+      <ul class="career-list">
+        <li>Cambridge BEC Vantage (Grade: Merit) — demonstrates B2 business English proficiency</li>
+        <li>Proficient in written and verbal business communication in English</li>
+        <li>Experienced in preparing professional business reports and correspondence in English</li>
+        <li>Strong command of business English in cross-functional team settings</li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div class="section-title serif" style="margin-bottom:12px;font-size:1.1rem">商务场合实用表达 Business Phrases</div>
+      <div class="divider"></div>
+      <div style="display:grid;gap:10px">
+        <div class="template-box">
+          <div class="template-label">开会 In Meetings</div>
+          <div class="template-text">
+            "Could we table that for now and come back to it?" — 先搁置这个话题<br>
+            "I'd like to flag an issue regarding..." — 提出一个问题<br>
+            "Let's take that offline." — 私下讨论（不占用会议时间）<br>
+            "Can we get everyone on the same page?" — 让大家统一认识
+          </div>
+          <div class="template-zh">这四句在外企会议中出现频率极高，会用这些让你听起来像native</div>
+        </div>
+        <div class="template-box">
+          <div class="template-label">发邮件 Professional Emails</div>
+          <div class="template-text">
+            "As per my last email..." — 如我上封邮件所说（礼貌但有点强调）<br>
+            "Please revert by [date]." — 请在[日期]前回复（亚洲外企常用）<br>
+            "I'll loop in [name]." — 我会把[某人]加进邮件<br>
+            "Please action this at your earliest convenience." — 请尽早处理
+          </div>
+          <div class="template-zh">外企邮件文化：简洁 > 客套，说清楚deadline和action items</div>
+        </div>
+        <div class="template-box">
+          <div class="template-label">汇报工作 Presenting Work</div>
+          <div class="template-text">
+            "I'd like to walk you through the key findings." — 我来带您了解主要发现<br>
+            "In a nutshell, the main takeaway is..." — 简单来说，核心要点是<br>
+            "This slide illustrates how..." — 这张图展示了...<br>
+            "Happy to take questions at the end." — 结束后欢迎提问
+          </div>
+          <div class="template-zh">设计师做方案汇报时这4句话非常实用</div>
+        </div>
+        <div class="template-box">
+          <div class="template-label">表达不同意见 Pushing Back Politely</div>
+          <div class="template-text">
+            "I see your point, however I'd like to suggest..." — 我理解您的观点，但我想建议...<br>
+            "With all due respect, I'm not sure that approach would..." — 恕我直言，我不确定那个方案是否...<br>
+            "That's one way to look at it. Another angle might be..." — 那是一种看法，另一个角度可能是...
+          </div>
+          <div class="template-zh">外企非常看重能有礼貌地表达不同意见的能力</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--bg2);border-radius:var(--radius2);border:1px solid var(--border);padding:1.25rem">
+      <div style="font-size:13px;font-weight:500;color:var(--navy);margin-bottom:12px">BEC让你在外企脱颖而出 Why BEC Matters</div>
+      <div style="display:grid;gap:8px;font-size:13px;color:var(--text2)">
+        <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);font-weight:600">01</span><div><strong style="color:var(--navy)">国际认可度高</strong> — 剑桥发证，全球170+国家认可，比自称"流利英语"更有说服力</div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);font-weight:600">02</span><div><strong style="color:var(--navy)">职场英语而非学术英语</strong> — 内容贴近真实工作场景，面试时可以直接展示</div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);font-weight:600">03</span><div><strong style="color:var(--navy)">配合雅思成绩</strong> — 雅思6分证明学术能力，BEC证明职场英语，双证更有说服力</div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);font-weight:600">04</span><div><strong style="color:var(--navy)">提升自信</strong> — 备考过程本身就是系统提升商务英语的过程，工作中立即能用</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const btns=document.querySelectorAll('.nav-btn');
+  const pages=['home','plan','daily','vocab','listen','reading','writing','speaking','exam','career'];
+  const idx=pages.indexOf(id);
+  if(idx>=0)btns[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function switchTab(id,group){
+  const parent=document.getElementById('page-'+group)||document.querySelector('.page.active');
+  parent.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  parent.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  const tabEl=document.getElementById('tab-'+id);
+  if(tabEl){tabEl.classList.add('active')}
+  const tabs=parent.querySelectorAll('.tab');
+  const contents=parent.querySelectorAll('.tab-content');
+  contents.forEach((c,i)=>{if(c.id==='tab-'+id){tabs[i]&&tabs[i].classList.add('active')}});
+}
+
+function toggleCheck(el){
+  el.classList.toggle('checked');
+  el.textContent=el.classList.contains('checked')?'✓':'';
+  updateProgress();
+}
+
+function updateProgress(){
+  const total=document.querySelectorAll('.check-box').length;
+  const done=document.querySelectorAll('.check-box.checked').length;
+  document.getElementById('progress-display').textContent=done+' / '+total;
+  document.getElementById('week-progress').style.width=(done/total*100)+'%';
+}
+</script>
+</body>
+</html>
